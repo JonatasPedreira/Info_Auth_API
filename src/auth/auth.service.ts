@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { AuthEntity } from "./entities/auth.entity";
 import { CryptoService } from "../crypto/crypto.service";
+import { ConfigService } from "@nestjs/config";
 
 
 @Injectable()
@@ -12,6 +13,7 @@ export class AuthService {
         @InjectRepository(AuthEntity)
         private readonly authRepository: Repository<AuthEntity>,
         private readonly cryptoService: CryptoService,
+        private readonly configService: ConfigService,
     ) {}
 
 
@@ -52,7 +54,9 @@ export class AuthService {
             throw new NotFoundException('Registro não encontrado.');
         }
         
-        if (!key || key !== "minha-palavra-chave") {
+        const masterKey = this.configService.get<string>('MASTER_KEY');
+
+        if (!key || key !== masterKey) {
             throw new UnauthorizedException('Key inválida');
         }
 

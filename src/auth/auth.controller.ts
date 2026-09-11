@@ -29,4 +29,9 @@ export class AuthController {
             body.key,
         );
     }
+
+    @Post('consulta')
+    async consulta(@Body() body: { id: number; key: string }) {
+        return this.authService.resolve(body.id, body.key);
+    }
 }
