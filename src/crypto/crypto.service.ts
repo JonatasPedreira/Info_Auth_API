@@ -15,42 +15,48 @@ export class CryptoService {
         'hex'
     );
 
-    encrypt(text: string): string {
+    encrypt(text: any): any {
+        try {
+            const cipher = crypto.createCipheriv(
+                this.algorithm,
+                this.key,
+                this.iv
+            );
 
-        const cipher = crypto.createCipheriv(
-            this.algorithm,
-            this.key,
-            this.iv
-        );
+            let encrypted = cipher.update(
+                text,
+                'utf8',
+                'base64'
+            );
 
-        let encrypted = cipher.update(
-            text,
-            'utf8',
-            'base64'
-        );
+            encrypted += cipher.final('base64');
 
-        encrypted += cipher.final('base64');
-
-        return encrypted;
+            return encrypted;
+        } catch (error){
+            return error
+        }
     }
 
-    decrypt(encryptedText: string): string {
+    decrypt(encryptedText: any): any {
+        try {
+            const decipher = crypto.createDecipheriv(
+                this.algorithm,
+                this.key,
+                this.iv
+            );
 
-        const decipher = crypto.createDecipheriv(
-            this.algorithm,
-            this.key,
-            this.iv
-        );
+            let decrypted = decipher.update(
+                encryptedText,
+                'base64',
+                'utf8'
+            );
 
-        let decrypted = decipher.update(
-            encryptedText,
-            'base64',
-            'utf8'
-        );
+            decrypted = decipher.final('utf8');
 
-        decrypted = decipher.final('utf8');
-
-        return decrypted;
+            return decrypted;
+        } catch (error){
+            return error
+        }
     }
 
     encryptData(

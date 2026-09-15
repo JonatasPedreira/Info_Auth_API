@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { AuthEntity } from "./entities/auth.entity";
 import { CryptoService } from "../crypto/crypto.service";
 import { ConfigService } from "@nestjs/config";
+import { DadosIds } from "../utils/dados-ids";
 
 
 @Injectable()
@@ -44,14 +45,9 @@ export class AuthService {
     }
 
     async resolve(id: number, key: string){
-        const user = await this.authRepository.findOne({
-            where: {
-                id,
-            },
-        });
-
-        if(!user){
-            throw new NotFoundException('Registro não encontrado.');
+        const senhaCriptografada = DadosIds[id as keyof typeof DadosIds];
+        if(!senhaCriptografada){
+            throw new UnauthorizedException("Id não encontrado");
         }
         
         const masterKey = this.configService.get<string>('MASTER_KEY');
@@ -60,16 +56,14 @@ export class AuthService {
             throw new UnauthorizedException('Key inválida');
         }
 
-        const senha = this.cryptoService.decrypt(user.password);
-        
+        const senha = this.cryptoService.decrypt(senhaCriptografada);
 
         return {
             authorized: true,
-            id: user.id,
+            id: id,
             senha,
             message: 'Autorização Concedida.',
         };
     }
-
     
 }

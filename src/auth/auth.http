@@ -1,0 +1,8 @@
+###cadastro
+POST  http://127.0.0.1:3000/auth/cadastro
+Content-Type: application/json
+
+{
+    "id": "0",
+    "password": "teste"
+}
