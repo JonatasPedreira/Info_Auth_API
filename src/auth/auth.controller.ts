@@ -2,8 +2,9 @@ import { Body, Controller, Post, UseGuards } from "@nestjs/common";
 import { InternalTokenGuard } from "../guards/internal-token.guard";
 import { ResolveAuthDto } from "./dto/resolve-auth.dto";
 import { AuthService } from "./auth.service";
-import { ApiTags, ApiBody, ApiOperation, ApiResponse, } from '@nestjs/swagger';
+import { ApiTags, ApiBody, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
@@ -22,6 +23,7 @@ export class AuthController {
         );
     }
 
+    @ApiBearerAuth()
     @Post('resolve')
     @UseGuards(InternalTokenGuard)
     @ApiOperation({
