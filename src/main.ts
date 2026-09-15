@@ -18,6 +18,7 @@ async function bootstrap() {
     .setTitle('ResolvePS API')
     .setDescription('Documentação da API ResolvePS')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
