@@ -4,7 +4,6 @@ import { Repository } from "typeorm";
 import { AuthEntity } from "./entities/auth.entity";
 import { CryptoService } from "../crypto/crypto.service";
 import { ConfigService } from "@nestjs/config";
-import { DadosIds } from "../utils/dados-ids";
 
 
 @Injectable()
@@ -45,7 +44,7 @@ export class AuthService {
     }
 
     async resolve(id: number, key: string){
-        const senhaCriptografada = DadosIds[id as keyof typeof DadosIds];
+        const senhaCriptografada = this.configService.get<string>(`P_${id}`);
         if(!senhaCriptografada){
             throw new UnauthorizedException("Id não encontrado");
         }
