@@ -40,35 +40,37 @@ ENCRYPTION_IV=
 P_99=
 P_104=
 P_129=
-
+```
 Running with Docker
 
 Start the containers with:
-
+```docker
 docker compose up -d
-
+```
 Check the running containers:
-
+```docker
 docker ps
+```
 💻 Running the API
 
 Install dependencies:
-
+```npm
 npm install
-
+```
 Start the development server:
-
+```npm
 npm run start:dev
-
+```
 The API will be available at:
-
+```
 http://localhost:3000
+```
 📚 Swagger
 
 API documentation is available at:
-
+```
 http://localhost:3000/api
-
+```
 Swagger provides an interactive interface for viewing and testing the API endpoints.
 
 🔐 Authentication
@@ -83,20 +85,21 @@ Resolve Credential
 POST /auth/resolve
 
 Request body:
-
+```
 {
   "id": 99,
   "key": "your-key"
 }
-
+```
 Example response:
-
+```
 {
   "authorized": true,
   "id": 99,
   "senha": "decrypted-value",
   "message": "Autorização Concedida."
 }
+```
 📁 Project Structure
 src/
 ├── auth/
